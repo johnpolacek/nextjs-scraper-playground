@@ -1,0 +1,46 @@
+{
+  "name": "nextjs-scraper-playground",
+  "title": "Next.js Web Scraper Playground",
+  "version": "0.1.0",
+  "description": "Build and test your own web scraper APIs with Next.js and cheerio.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/johnpolacek/nextjs-scraper-playground.git"
+  },
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+    "format-watch": "npm run format && onchange \"**/*.{js,jsx,json,md}\" -- prettier --write {{changed}}"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.9",
+    "cheerio-eq": "^1.0.1",
+    "cypress": "^7.3.0",
+    "next": "^10.2.0",
+    "puppeteer": "^9.1.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-syntax-highlighter": "^15.4.3"
+  },
+  "devDependencies": {
+    "onchange": "^7.1.0",
+    "prettier": "^2.3.0"
+  },
+  "author": {
+    "name": "John Polacek",
+    "url": "https://www.johnpolacek.com"
+  },
+  "keywords": [
+    "nextjs",
+    "cheerio",
+    "scraper",
+    "scraping"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/johnpolacek/nextjs-scraper-playground/issues"
+  },
+  "homepage": "https://nextjs-scraper-playground.vercel.app"
+}

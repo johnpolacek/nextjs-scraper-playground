@@ -1,0 +1,40 @@
+html {
+	box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: Avenir Next, Avenir, -apple-system, BlinkMacSystemFont, Helvetica, sans-serif;
+}
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+a {
+  color: #067df7;
+}
+button {
+  margin-top: 8px;
+  border: none;
+  background: #067df7;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  display: inline-block;
+  font-size: 18px;
+  cursor: pointer;
+}
+button[disabled] {
+  background: gray;
+  cursor: inherit;
+}
+select {
+  appearance: menulist;
+  background-color: transparent;
+  border: solid 1px #aaa;
+  padding: 4px 0 4px 4px;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+  border-radius: 4px;
+}
