@@ -29,11 +29,15 @@ const Index = () => (
         <a href="https://dev.to/mtliendo/create-a-public-api-by-web-scraping-in-nextjs-2f5n">
           Create a public API by web scraping in NextJS
         </a>{" "}
-        by <a href="https://twitter.com/mtliendo">Michael Liendo</a> and{" "}
+        by <a href="https://twitter.com/mtliendo">Michael Liendo</a>,
         <a href="https://pusher.com/tutorials/web-scraper-node/">
           Build a web scraper with Node
         </a>{" "}
-        by <a href="https://twitter.com/ayisaiah">Ayooluwa Isaiah</a>.
+        by <a href="https://twitter.com/ayisaiah">Ayooluwa Isaiah</a> and{" "}
+        <a href="https://www.contentful.com/blog/2021/03/17/puppeteer-node-open-graph-screenshot-for-socials/">
+          Use Puppeteer, Node.js to generate Open Graph screenshots
+        </a>{" "}
+        by <a href="https://whitep4nth3r.com/">Salma Alam-Naylor</a>.
       </p>
       <p>
         View source at: <br />
