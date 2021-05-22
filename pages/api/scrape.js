@@ -69,7 +69,7 @@ const scrape = async (req, res) => {
         console.log("url loaded") //WORKS FINE
       })
 
-      console.log("delay for js...")
+      console.log("delay " + delay + "ms for js...")
       const sleep = (ms) => {
         return new Promise((resolve) => {
           setTimeout(resolve, ms)
@@ -78,7 +78,9 @@ const scrape = async (req, res) => {
       await sleep(2000)
 
       console.log("get page content...")
-      const html = await page.content()
+      const html = await page.evaluate(() => {
+        return document.querySelector("body").innerHTML
+      })
 
       console.log("parse html...")
       const $ = cheerio.load(html)
