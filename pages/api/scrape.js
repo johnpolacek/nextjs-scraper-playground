@@ -3,6 +3,12 @@ const cheerio = require("cheerio")
 const find = require("cheerio-eq")
 const chrome = require("chrome-aws-lambda")
 
+const sleep = (ms) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms)
+  })
+}
+
 /** The code below determines the executable location for Chrome to
  * start up and take the screenshot when running a local development environment.
  *
@@ -41,6 +47,8 @@ const getOptions = async () => {
 }
 
 const scrape = async (req, res) => {
+  console.log("scraping...")
+
   const url = req.body.url
   const properties = req.body.properties
   const delay = req.body.delay || 1
@@ -50,34 +58,29 @@ const scrape = async (req, res) => {
       console.log("configuring chrome...")
       const options = await getOptions()
 
-      console.log("scraping...")
       console.log("launching browser...")
       const browser = await puppeteer.launch(options)
 
       console.log("opening new page...")
       const page = await browser.newPage()
 
-      console.log("setting request interception...")
-      await page.setRequestInterception(true)
-      page.on("request", (request) => {
-        if (request.resourceType() === "document") {
-          request.continue()
-        } else {
-          request.abort()
-        }
-      })
-
       console.log("navigating to " + url + "...")
       await page.goto(url, { timeout: 0 }).then(async (response) => {
         console.log("url loaded") //WORKS FINE
       })
 
-      console.log("evaluating page content...")
-      const html = await page.evaluate(() => {
-        return document.querySelector("body").innerHTML
-      })
+      console.log("delay for js...")
+      const sleep = (ms) => {
+        return new Promise((resolve) => {
+          setTimeout(resolve, ms)
+        })
+      }
+      await sleep(2000)
 
-      console.log("loading html...")
+      console.log("get page content...")
+      const html = await page.content()
+
+      console.log("parse html...")
       const $ = cheerio.load(html)
 
       console.log("initializing empty result set...")
@@ -87,7 +90,7 @@ const scrape = async (req, res) => {
         result.push({})
       }
 
-      console.log("parsing html for results...")
+      console.log("evaluate html for results...")
       // fill result set by parsing the html for each property selector
       properties.forEach((property) => {
         // {"name":"url","selector":"a[data-click-id='body']","type":"href"}
