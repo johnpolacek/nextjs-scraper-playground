@@ -6,9 +6,10 @@ import chrome from "chrome-aws-lambda"
 const scrape = async (req, res) => {
   const url = req.body.url
   const properties = req.body.properties
-  const delay = req.body.delay || 1
+  const delay = req.body.delay || 1000
 
   if (req.method === "POST") {
+    console.log("scraping...")
     puppeteer
       .launch(
         process.env.NODE_ENV === "production"
@@ -19,11 +20,19 @@ const scrape = async (req, res) => {
             }
           : {}
       )
-      .then((browser) => browser.newPage())
+      .then((browser) => {
+        console.log("launched browser")
+        browser.newPage()
+      })
       .then((page) => {
+        console.log("navigating to " + url + "...")
         return page.goto(url).then(() => {
+          console.log(
+            "allow " + delay + "ms delay for javascript to render updates..."
+          )
           return new Promise((resolve) => setTimeout(resolve, delay)).then(
             () => {
+              console.log("content loaded.")
               return page.content()
             }
           )
@@ -32,6 +41,8 @@ const scrape = async (req, res) => {
       .then((html) => {
         try {
           const $ = cheerio.load(html)
+
+          console.log("parsing html...")
 
           // create empty result set, assume all selectors will be of the same length
           let result = []
@@ -63,6 +74,8 @@ const scrape = async (req, res) => {
                 }
               })
           })
+
+          console.log("done.")
 
           res.status(200).json({ statusCode: 200, result, html })
         } catch (error) {
