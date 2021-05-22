@@ -17,18 +17,21 @@ const Playground = () => {
     newProperties[index] = { name, selector, type } // replace e.target.value with whatever you want to change it to
     setProperties(newProperties)
     setResult(null)
+    setError(null)
   }
 
   const onAddProperty = (e) => {
     e.preventDefault()
     setProperties([...properties, { name: "", selector: "", type: "text" }])
     setResult(null)
+    setError(null)
   }
 
   const onRemoveProperty = (index) => {
     const newProperties = properties.filter((p, i) => index !== i)
     setProperties(newProperties)
     setResult(null)
+    setError(null)
   }
 
   const onSelectExample = (example) => {
@@ -46,6 +49,7 @@ const Playground = () => {
       setProperties([{ name: "", selector: "", type: "text" }])
       setResult(null)
     }
+    setError(null)
   }
 
   const scrape = (e) => {
@@ -186,6 +190,8 @@ const Playground = () => {
           overflow-x: scroll;
         }
         .error {
+          max-width: 720px;
+          margin: 0 auto 32px;
           color: red;
         }
       `}</style>

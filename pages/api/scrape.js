@@ -46,70 +46,65 @@ const scrape = async (req, res) => {
   const delay = req.body.delay || 1
 
   if (req.method === "POST") {
-    console.log("configuring chrome...")
+    try {
+      console.log("configuring chrome...")
+      const options = await getOptions()
 
-    const options = await getOptions()
+      console.log("scraping...")
+      console.log("launching browser...")
+      const browser = await puppeteer.launch(options)
 
-    console.log("scraping...")
+      console.log("opening new page...")
+      const page = await browser.newPage()
 
-    puppeteer
-      .launch(options)
-      .then((browser) => {
-        console.log("launched browser")
-        return browser.newPage()
+      console.log("navigating to " + url + "...")
+      await page.goto(url)
+
+      console.log("evaluating page content...")
+      const html = await page.evaluate(() => {
+        return document.querySelector("body").innerHTML
       })
-      .then((page) => {
-        console.log("navigating to " + url + "...")
-        console.log("page", page)
-        return page.goto(url).then(() => {
-          console.log("content loaded...")
-          return page.content()
-        })
-      })
-      .then((html) => {
-        try {
-          const $ = cheerio.load(html)
 
-          console.log("parsing html...")
+      const $ = cheerio.load(html)
 
-          // create empty result set, assume all selectors will be of the same length
-          let result = []
-          for (let i = 0; i < find($, properties[0].selector).length; i++) {
-            result.push({})
-          }
+      // create empty result set, assume all selectors will be of the same length
+      let result = []
+      // for (let i = 0; i < find($, properties[0].selector).length; i++) {
+      //   result.push({})
+      // }
 
-          // fill result set by parsing the html for each property selector
-          properties.forEach((property) => {
-            // {"name":"url","selector":"a[data-click-id='body']","type":"href"}
-            find($, property.selector)
-              .slice(0, result.length)
-              .each((i, elem) => {
-                // i is the element index in the cheerio selection
-                result[i][property.name] = ""
-                if (property.type === "href") {
-                  let href = $(elem).attr("href")
-                  if (typeof href !== "undefined") {
-                    if (href.charAt(0) === "/") {
-                      href = url.split("/").slice(0, 3).join("/") + href
-                    }
-                    result[i][property.name] = href
-                  }
-                } else {
-                  result[i][property.name] = $(elem)
-                    .text()
-                    .replace(/\r?\n|\r/g, "")
-                    .trim()
-                }
-              })
-          })
+      console.log("testing empty result...")
 
-          console.log("done.")
+      // fill result set by parsing the html for each property selector
+      // properties.forEach((property) => {
+      //   // {"name":"url","selector":"a[data-click-id='body']","type":"href"}
+      //   find($, property.selector)
+      //     .slice(0, result.length)
+      //     .each((i, elem) => {
+      //       // i is the element index in the cheerio selection
+      //       result[i][property.name] = ""
+      //       if (property.type === "href") {
+      //         let href = $(elem).attr("href")
+      //         if (typeof href !== "undefined") {
+      //           if (href.charAt(0) === "/") {
+      //             href = url.split("/").slice(0, 3).join("/") + href
+      //           }
+      //           result[i][property.name] = href
+      //         }
+      //       } else {
+      //         result[i][property.name] = $(elem)
+      //           .text()
+      //           .replace(/\r?\n|\r/g, "")
+      //           .trim()
+      //       }
+      //     })
+      // })
 
-          res.status(200).json({ statusCode: 200, result, html })
-        } catch (error) {
-          res.status(500).json({ statusCode: 500, error: error.message })
-        }
-      })
+      console.log("done.")
+      res.status(200).json({ statusCode: 200, result, html })
+    } catch (error) {
+      res.status(500).json({ statusCode: 500, error: error.message })
+    }
   } else {
     res.setHeader("Allow", "POST")
     res.status(405).end("Method Not Allowed")
