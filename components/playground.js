@@ -55,36 +55,41 @@ const Playground = () => {
     if (url.indexOf("http") !== 0) {
       setUrl("https://" + url)
     }
-    return fetch("/api/scrape", {
-      method: "POST",
-      // eslint-disable-next-line no-undef
-      headers: new Headers({ "Content-Type": "application/json" }),
-      credentials: "same-origin",
-      body: JSON.stringify({
-        url: url.indexOf("http") !== 0 ? "https://" + url : url,
-        properties,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.statusCode === 200) {
-          if (data.result.length === 0) {
-            setResult(
-              "Property selector found no html element matches for html (note: some websites put measures in place to block scraping):\n" +
-                data.html
-            )
-          } else {
-            setResult(JSON.stringify(data.result, null, 2))
-          }
-          setIsScraping(false)
-          document
-            .getElementById("scrapeButton")
-            .scrollIntoView({ behavior: "smooth" })
-        } else {
-          setError("Error: " + data.error)
-          setIsScraping(false)
-        }
+    try {
+      return fetch("/api/scrape", {
+        method: "POST",
+        // eslint-disable-next-line no-undef
+        headers: new Headers({ "Content-Type": "application/json" }),
+        credentials: "same-origin",
+        body: JSON.stringify({
+          url: url.indexOf("http") !== 0 ? "https://" + url : url,
+          properties,
+        }),
       })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.statusCode === 200) {
+            if (data.result.length === 0) {
+              setResult(
+                "Property selector found no html element matches for html (note: some websites put measures in place to block scraping):\n" +
+                  data.html
+              )
+            } else {
+              setResult(JSON.stringify(data.result, null, 2))
+            }
+            setIsScraping(false)
+            document
+              .getElementById("scrapeButton")
+              .scrollIntoView({ behavior: "smooth" })
+          } else {
+            setError("Oops! Something went wrong: " + data.error)
+            setIsScraping(false)
+          }
+        })
+    } catch (error) {
+      setError("Oops! Something went wrong: " + error)
+      setIsScraping(false)
+    }
   }
 
   return (
