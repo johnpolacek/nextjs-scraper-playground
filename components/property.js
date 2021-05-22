@@ -30,10 +30,10 @@ const Property = ({
       <div className="property">
         <div className="property-name">
           <div>
-            <label htmlFor="propertyName">Property Name</label>
+            <label htmlFor="propertyName">Name</label>
           </div>
           <input
-            id="propertyName"
+            className="propertyName"
             name="propertyName"
             value={propertyName}
             required={true}
@@ -50,10 +50,10 @@ const Property = ({
         </div>
         <div className="property-selector">
           <div>
-            <label htmlFor="propertySelector">Property Selector</label>
+            <label htmlFor="propertySelector">Selector</label>
           </div>
           <input
-            id="propertSelector"
+            className="propertySelector"
             name="propertySelector"
             value={propertySelector}
             required={true}
@@ -68,7 +68,7 @@ const Property = ({
             <label htmlFor="propertyType">Type</label>
           </div>
           <select
-            id="propertType"
+            className="propertyType"
             name="propertyType"
             value={propertyType}
             onChange={(e) => {
@@ -80,16 +80,18 @@ const Property = ({
             <option value="href">href</option>
           </select>
         </div>
-        {canDelete && (
-          <button
-            onClick={(e) => {
-              e.preventDefault()
-              onRemove(index)
-            }}
-          >
-            &times;
-          </button>
-        )}
+        <div className="property-delete">
+          {canDelete && (
+            <button
+              onClick={(e) => {
+                e.preventDefault()
+                onRemove(index)
+              }}
+            >
+              &times;
+            </button>
+          )}
+        </div>
       </div>
 
       <style jsx>{`
@@ -116,12 +118,16 @@ const Property = ({
           padding-right: 4px;
         }
         .property-selector {
-          width: 60%;
+          width: 55%;
           padding-left: 4px;
         }
         .property-type {
           width: 15%;
           padding-left: 8px;
+        }
+        .property-delete {
+          width: 5%;
+          position: relative;
         }
         button {
           color: #444;
@@ -129,9 +135,18 @@ const Property = ({
           background: transparent;
           padding: 8px;
           position: absolute;
-          top: 16px;
-          right: -24px;
+          top: 20px;
+          right: 0;
           font-size: 24px;
+        }
+        @media only screen and (max-width: 480px) {
+          .property-selector {
+            width: 50%;
+            padding-left: 4px;
+          }
+          .property-delete {
+            width: 10%;
+          }
         }
       `}</style>
     </>

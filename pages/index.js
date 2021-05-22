@@ -8,7 +8,7 @@ const Index = () => (
 
     <div className="wrapper">
       <h1 className="title">Next.js Scraper Playground</h1>
-      <p>
+      <h2>
         Build and test your own web scraper APIs with{" "}
         <a href="https://nextjs.org/docs/api-routes/introduction">
           Next.js API Routes
@@ -19,7 +19,7 @@ const Index = () => (
         <small>
           ~ follow <a href="https://twitter.com/johnpolacek">@johnpolacek</a> ~
         </small>
-      </p>
+      </h2>
       <Playground />
     </div>
 
@@ -68,6 +68,11 @@ const Index = () => (
         padding-top: 48px;
         line-height: 1.15;
         font-size: 48px;
+      }
+      h2 {
+        font-weight: normal;
+        font-size: 18px;
+        padding-bottom: 16px;
       }
       p {
         padding-bottom: 16px;

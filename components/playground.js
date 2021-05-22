@@ -3,6 +3,7 @@ import Property from "./property"
 import Examples from "./examples"
 import API from "./api"
 import Response from "./response"
+import Spinner from "./spinner"
 
 const Playground = () => {
   const [isScraping, setIsScraping] = useState(false)
@@ -11,16 +12,16 @@ const Playground = () => {
   const [properties, setProperties] = useState([{ name: "", selector: "" }])
   const [result, setResult] = useState(null)
 
-  const onPropertyChange = (index, name, selector) => {
+  const onPropertyChange = (index, name, selector, type) => {
     let newProperties = [...properties]
-    newProperties[index] = { name, selector } // replace e.target.value with whatever you want to change it to
+    newProperties[index] = { name, selector, type } // replace e.target.value with whatever you want to change it to
     setProperties(newProperties)
     setResult(null)
   }
 
   const onAddProperty = (e) => {
     e.preventDefault()
-    setProperties([...properties, { name: "", selector: "" }])
+    setProperties([...properties, { name: "", selector: "", type: "text" }])
     setResult(null)
   }
 
@@ -42,7 +43,7 @@ const Playground = () => {
       }, 100)
     } else {
       setUrl("")
-      setProperties([{ name: "", selector: "" }])
+      setProperties([{ name: "", selector: "", type: "text" }])
       setResult(null)
     }
   }
@@ -88,6 +89,7 @@ const Playground = () => {
 
   return (
     <>
+      <h2>Note: requires install cheerio cheerio-eq puppeteer</h2>
       <form id="playground" onSubmit={scrape}>
         <Examples onSelect={onSelectExample} />
         <div>
@@ -123,7 +125,7 @@ const Playground = () => {
         {error && <p className="error">{error}</p>}
         <div>
           <button id="scrapeButton" disabled={isScraping}>
-            Scrape
+            {isScraping ? <Spinner /> : "Scrape"}
           </button>
         </div>
       </form>

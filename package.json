@@ -12,12 +12,13 @@
     "build": "next build",
     "start": "next start",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-    "format-watch": "npm run format && onchange \"**/*.{js,jsx,json,md}\" -- prettier --write {{changed}}"
+    "format-watch": "npm run format && onchange \"**/*.{js,jsx,json,md}\" -- prettier --write {{changed}}",
+    "test": "cypress run",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.9",
     "cheerio-eq": "^1.0.1",
-    "cypress": "^7.3.0",
     "next": "^10.2.0",
     "puppeteer": "^9.1.1",
     "react": "^17.0.2",
@@ -25,6 +26,7 @@
     "react-syntax-highlighter": "^15.4.3"
   },
   "devDependencies": {
+    "cypress": "^7.3.0",
     "onchange": "^7.1.0",
     "prettier": "^2.3.0"
   },

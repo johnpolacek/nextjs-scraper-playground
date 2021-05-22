@@ -4,7 +4,7 @@ import { stackoverflowLight } from "react-syntax-highlighter/dist/cjs/styles/hlj
 const Response = ({ children }) => (
   <>
     <h3 className="heading">Response</h3>
-    <div className="output">
+    <div id="responseOutput" className="output">
       <SyntaxHighlighter
         language="json"
         style={stackoverflowLight}

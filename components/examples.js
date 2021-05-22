@@ -88,7 +88,7 @@ const SelectExample = ({ onSelect }) => {
     <>
       <div className="examples">
         <label>Try an example</label>
-        <select onChange={onSelectExample}>
+        <select id="selectExample" onChange={onSelectExample}>
           <option value="">Please select...</option>
           {examples.map((example, index) => (
             <option key={"example" + index} value={index}>

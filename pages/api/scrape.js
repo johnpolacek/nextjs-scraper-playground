@@ -37,10 +37,15 @@ const scrape = async (req, res) => {
               .slice(0, result.length)
               .each((i, elem) => {
                 // i is the element index in the cheerio selection
+                result[i][property.name] = ""
                 if (property.type === "href") {
                   let href = $(elem).attr("href")
-                  if (href.charAt(0) === "/") href = url + href
-                  result[i][property.name] = href
+                  if (typeof href !== "undefined") {
+                    if (href.charAt(0) === "/") {
+                      href = url.split("/").slice(0, 3).join("/") + href
+                    }
+                    result[i][property.name] = href
+                  }
                 } else {
                   result[i][property.name] = $(elem)
                     .text()

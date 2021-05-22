@@ -1,3 +1,4 @@
+import React, { useState } from "react"
 import SyntaxHighlighter from "react-syntax-highlighter"
 import { stackoverflowLight } from "react-syntax-highlighter/dist/cjs/styles/hljs"
 
@@ -28,19 +29,16 @@ const getResultPropertyAssignment = (property, url) => {
 }
 
 const API = ({ url, properties }) => {
+  const [isCopied, setIsCopied] = useState(false)
+
   const apiName = url.split("/")[2].split(".").slice(0, -1).pop()
   const apiNameCap = apiName.charAt(0).toUpperCase() + apiName.slice(1)
 
-  return (
-    <>
-      <h3 className="heading">pages/api/{apiName}.js</h3>
-      <div className="output">
-        <SyntaxHighlighter language="javascript" style={stackoverflowLight}>
-          {`import puppeteer from "puppeteer"
+  const codeSnippet = `import puppeteer from "puppeteer"
 import cheerio from "cheerio"
 import find from "cheerio-eq"
 
-const scrape${apiNameCap} = async (req, res) => {
+const get${apiNameCap} = async (req, res) => {
   ${getSelectors(properties)}
   const properties = req.body.properties
 
@@ -72,13 +70,29 @@ ${getResultSets(properties, url)}
   }
 }
 
-export default scrape${apiNameCap}
+export default get${apiNameCap}
 
 export const config = {
   api: {
     externalResolver: true,
   },
-}`}
+}`
+
+  return (
+    <>
+      <h3 className="heading">pages/api/get{apiNameCap}.js</h3>
+      <div id="codeOutput" className="output">
+        <button
+          id="copy"
+          onClick={() => {
+            setIsCopied(true)
+            navigator.clipboard.writeText(codeSnippet)
+          }}
+        >
+          {isCopied ? "✓ copied" : "copy"}
+        </button>
+        <SyntaxHighlighter language="javascript" style={stackoverflowLight}>
+          {codeSnippet}
         </SyntaxHighlighter>
       </div>
       <style jsx>{`
@@ -87,6 +101,13 @@ export const config = {
           width: 100%;
           max-width: 800px;
           margin: 16px auto;
+          position: relative;
+        }
+        #copy {
+          position: absolute;
+          top: 8px;
+          right: 16px;
+          font-size: 14px;
         }
       `}</style>
     </>
