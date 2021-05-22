@@ -60,6 +60,7 @@ const scrape = async (req, res) => {
       })
       .then((page) => {
         console.log("navigating to " + url + "...")
+        console.log("page", page)
         return page.goto(url).then(() => {
           console.log("content loaded...")
           return page.content()
