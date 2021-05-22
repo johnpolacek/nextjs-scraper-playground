@@ -69,13 +69,13 @@ const scrape = async (req, res) => {
         console.log("url loaded") //WORKS FINE
       })
 
-      console.log("delay " + delay + "ms for js...")
-      const sleep = (ms) => {
-        return new Promise((resolve) => {
-          setTimeout(resolve, ms)
-        })
-      }
-      await sleep(2000)
+      // console.log("delay " + delay + "ms for js...")
+      // const sleep = (ms) => {
+      //   return new Promise((resolve) => {
+      //     setTimeout(resolve, ms)
+      //   })
+      // }
+      // await sleep(delay)
 
       console.log("get page content...")
       const html = await page.evaluate(() => {
