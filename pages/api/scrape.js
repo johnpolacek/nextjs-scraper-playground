@@ -65,7 +65,7 @@ const scrape = async (req, res) => {
         return document.querySelector("body").innerHTML
       })
 
-      const $ = cheerio.load(html)
+      // const $ = cheerio.load(html)
 
       // create empty result set, assume all selectors will be of the same length
       let result = []
@@ -73,7 +73,7 @@ const scrape = async (req, res) => {
       //   result.push({})
       // }
 
-      console.log("testing empty result...")
+      console.log("testing empty result with no cheerio init...")
 
       // fill result set by parsing the html for each property selector
       // properties.forEach((property) => {
