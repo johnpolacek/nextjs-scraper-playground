@@ -94,7 +94,6 @@ const Playground = () => {
 
   return (
     <>
-      <h2>Note: requires install cheerio cheerio-eq puppeteer</h2>
       <form id="playground" onSubmit={scrape}>
         <Examples onSelect={onSelectExample} />
         <div>
