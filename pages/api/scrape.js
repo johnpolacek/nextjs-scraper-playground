@@ -69,7 +69,11 @@ const scrape = async (req, res) => {
       page.on("request", (request) => {
         const reqType = request.resourceType()
         // if (reqType === "document") {
-        if (reqType === "document" || reqType === "script") {
+        if (
+          reqType === "document" ||
+          reqType === "script" ||
+          reqType === "xhr"
+        ) {
           request.continue()
         } else {
           console.log("block request type: " + request.resourceType())
