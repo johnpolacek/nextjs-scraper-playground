@@ -44,7 +44,7 @@ npm run test
 
 1. Install `vercel` from [vercel.com/cli](https://vercel.com/cli) or via node with `npm install -g vercel`.
 
-2. Run `vercel` from your project directory.
+2. Run `vercel` from your project directory and follow the prompts.
 
 You can find more details about [here](https://vercel.com/cli).
 <br>
