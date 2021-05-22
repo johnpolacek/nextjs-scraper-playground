@@ -68,7 +68,6 @@ const scrape = async (req, res) => {
       await page.setRequestInterception(true)
       page.on("request", (request) => {
         const reqType = request.resourceType()
-        // if (reqType === "document") {
         if (
           reqType === "document" ||
           reqType === "script" ||
