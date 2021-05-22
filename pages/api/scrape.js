@@ -64,6 +64,16 @@ const scrape = async (req, res) => {
       console.log("opening new page...")
       const page = await browser.newPage()
 
+      console.log("setting request interception...")
+      await page.setRequestInterception(true)
+      page.on("request", (request) => {
+        if (request.resourceType() === "document") {
+          request.continue()
+        } else {
+          request.abort()
+        }
+      })
+
       console.log("navigating to " + url + "...")
       await page.goto(url, { timeout: 0 }).then(async (response) => {
         console.log("url loaded") //WORKS FINE
