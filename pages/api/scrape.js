@@ -132,6 +132,9 @@ const scrape = async (req, res) => {
           })
       })
 
+      console.log("closing browser...")
+      await browser.close()
+
       console.log("done.")
       res.status(200).json({ statusCode: 200, result, html })
     } catch (error) {
