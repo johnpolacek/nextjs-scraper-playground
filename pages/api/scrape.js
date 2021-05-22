@@ -30,16 +30,16 @@ const exePath =
 
 const getOptions = async () => {
   let options
-  if (process.env.NODE_ENV !== "production") {
-    options = {
-      args: [],
-      executablePath: exePath,
-      headless: true,
-    }
-  } else {
+  if (process.env.NODE_ENV === "production") {
     options = {
       args: chrome.args,
       executablePath: await chrome.executablePath,
+      headless: chrome.headless,
+    }
+  } else {
+    options = {
+      args: [],
+      executablePath: exePath,
       headless: true,
     }
   }
