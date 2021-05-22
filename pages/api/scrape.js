@@ -58,7 +58,9 @@ const scrape = async (req, res) => {
       const page = await browser.newPage()
 
       console.log("navigating to " + url + "...")
-      await page.goto(url)
+      await page.goto(url, { timeout: 0 }).then(async (response) => {
+        console.log("url loaded") //WORKS FINE
+      })
 
       console.log("evaluating page content...")
       const html = await page.evaluate(() => {
