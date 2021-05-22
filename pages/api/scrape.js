@@ -67,7 +67,8 @@ const scrape = async (req, res) => {
       console.log("setting request interception...")
       await page.setRequestInterception(true)
       page.on("request", (request) => {
-        if (request.resourceType() === "document") {
+        const reqType = request.resourceType()
+        if (reqType === "document" || reqType === "script") {
           request.continue()
         } else {
           console.log("block request type: " + request.resourceType())
