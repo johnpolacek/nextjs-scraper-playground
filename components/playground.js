@@ -54,6 +54,7 @@ const Playground = () => {
 
   const scrape = (e) => {
     e.preventDefault()
+    setResult(null)
     setIsScraping(true)
     setError(false)
     if (url.indexOf("http") !== 0) {

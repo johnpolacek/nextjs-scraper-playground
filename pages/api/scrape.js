@@ -51,7 +51,7 @@ const scrape = async (req, res) => {
 
   const url = req.body.url
   const properties = req.body.properties
-  const delay = req.body.delay || 1
+  const delay = req.body.delay || 1000
 
   if (req.method === "POST") {
     try {
@@ -81,18 +81,19 @@ const scrape = async (req, res) => {
         console.log("url loaded") //WORKS FINE
       })
 
-      // console.log("delay " + delay + "ms for js...")
-      // const sleep = (ms) => {
-      //   return new Promise((resolve) => {
-      //     setTimeout(resolve, ms)
-      //   })
-      // }
-      // await sleep(delay)
+      console.log("delay " + delay + "ms for js...")
+      const sleep = (ms) => {
+        return new Promise((resolve) => {
+          setTimeout(resolve, ms)
+        })
+      }
+      await sleep(delay)
 
       console.log("get page content...")
       const html = await page.evaluate(() => {
         return document.querySelector("body").innerHTML
       })
+      // const html = await page.content() doesn't work on server-side
 
       console.log("parse html...")
       const $ = cheerio.load(html)
