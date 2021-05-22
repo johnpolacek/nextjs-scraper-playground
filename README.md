@@ -38,6 +38,13 @@ Run headless tests:
 npm run test
 ```
 
+To run tests then push to `main`:
+
+```
+npm run deploy
+```
+
+
 ## Deploy to Vercel
 
 [Vercel](https://vercel.com) offers a zero-configuration single-command deployment.
@@ -46,7 +53,7 @@ npm run test
 
 2. Run `vercel` from your project directory and follow the prompts.
 
-You can find more details about [here](https://vercel.com/cli).
+Read more about the Vercel CLI [here](https://vercel.com/cli). You can also set up automatic deployments from git branches.
 <br>
 <br>
 
