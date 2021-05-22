@@ -70,6 +70,7 @@ const scrape = async (req, res) => {
         if (request.resourceType() === "document") {
           request.continue()
         } else {
+          console.log("block request type: " + request.resourceType())
           request.abort()
         }
       })
