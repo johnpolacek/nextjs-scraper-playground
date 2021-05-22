@@ -1,7 +1,7 @@
-import puppeteer from "puppeteer"
-import cheerio from "cheerio"
-import find from "cheerio-eq"
-import chrome from "chrome-aws-lambda"
+const puppeteer = require("puppeteer")
+const cheerio = require("cheerio")
+const find = require("cheerio-eq")
+const chrome = require("chrome-aws-lambda")
 
 /** The code below determines the executable location for Chrome to
  * start up and take the screenshot when running a local development environment.
@@ -65,45 +65,46 @@ const scrape = async (req, res) => {
         return document.querySelector("body").innerHTML
       })
 
-      // const $ = cheerio.load(html)
+      console.log("loading html...")
+      const $ = cheerio.load(html)
 
+      console.log("initializing empty result set...")
       // create empty result set, assume all selectors will be of the same length
       let result = []
-      // for (let i = 0; i < find($, properties[0].selector).length; i++) {
-      //   result.push({})
-      // }
+      for (let i = 0; i < find($, properties[0].selector).length; i++) {
+        result.push({})
+      }
 
-      console.log("testing empty result with no cheerio init...")
-
+      console.log("parsing html for results...")
       // fill result set by parsing the html for each property selector
-      // properties.forEach((property) => {
-      //   // {"name":"url","selector":"a[data-click-id='body']","type":"href"}
-      //   find($, property.selector)
-      //     .slice(0, result.length)
-      //     .each((i, elem) => {
-      //       // i is the element index in the cheerio selection
-      //       result[i][property.name] = ""
-      //       if (property.type === "href") {
-      //         let href = $(elem).attr("href")
-      //         if (typeof href !== "undefined") {
-      //           if (href.charAt(0) === "/") {
-      //             href = url.split("/").slice(0, 3).join("/") + href
-      //           }
-      //           result[i][property.name] = href
-      //         }
-      //       } else {
-      //         result[i][property.name] = $(elem)
-      //           .text()
-      //           .replace(/\r?\n|\r/g, "")
-      //           .trim()
-      //       }
-      //     })
-      // })
+      properties.forEach((property) => {
+        // {"name":"url","selector":"a[data-click-id='body']","type":"href"}
+        find($, property.selector)
+          .slice(0, result.length)
+          .each((i, elem) => {
+            // i is the element index in the cheerio selection
+            result[i][property.name] = ""
+            if (property.type === "href") {
+              let href = $(elem).attr("href")
+              if (typeof href !== "undefined") {
+                if (href.charAt(0) === "/") {
+                  href = url.split("/").slice(0, 3).join("/") + href
+                }
+                result[i][property.name] = href
+              }
+            } else {
+              result[i][property.name] = $(elem)
+                .text()
+                .replace(/\r?\n|\r/g, "")
+                .trim()
+            }
+          })
+      })
 
       console.log("done.")
       res.status(200).json({ statusCode: 200, result, html })
     } catch (error) {
-      res.status(500).json({ statusCode: 500, error: error.message })
+      res.status(500).json({ statusCode: 500, error })
     }
   } else {
     res.setHeader("Allow", "POST")
