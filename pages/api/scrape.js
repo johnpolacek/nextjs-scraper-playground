@@ -62,15 +62,8 @@ const scrape = async (req, res) => {
         console.lo
         console.log("navigating to " + url + "...")
         return page.goto(url).then(() => {
-          console.log(
-            "allow " + delay + "ms delay for javascript to render updates..."
-          )
-          return new Promise((resolve) => setTimeout(resolve, delay)).then(
-            () => {
-              console.log("content loaded...")
-              return page.content()
-            }
-          )
+          console.log("content loaded...")
+          return page.content()
         })
       })
       .then((html) => {
