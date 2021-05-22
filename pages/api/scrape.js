@@ -43,7 +43,7 @@ const getOptions = async () => {
 const scrape = async (req, res) => {
   const url = req.body.url
   const properties = req.body.properties
-  const delay = req.body.delay || 1000
+  const delay = req.body.delay || 1
 
   if (req.method === "POST") {
     console.log("configuring chrome...")
