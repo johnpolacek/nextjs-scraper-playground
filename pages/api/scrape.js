@@ -3,28 +3,63 @@ import cheerio from "cheerio"
 import find from "cheerio-eq"
 import chrome from "chrome-aws-lambda"
 
+/** The code below determines the executable location for Chrome to
+ * start up and take the screenshot when running a local development environment.
+ *
+ * If the code is running on Windows, find chrome.exe in the default location.
+ * If the code is running on Linux, find the Chrome installation in the default location.
+ * If the code is running on MacOS, find the Chrome installation in the default location.
+ * You may need to update this code when running it locally depending on the location of
+ * your Chrome installation on your operating system.
+
+ via https://www.contentful.com/blog/2021/03/17/puppeteer-node-open-graph-screenshot-for-socials/
+*/
+
+const exePath =
+  process.platform === "win32"
+    ? "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+    : process.platform === "linux"
+    ? "/usr/bin/google-chrome"
+    : "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
+const getOptions = async () => {
+  let options
+  if (process.env.NODE_ENV !== "production") {
+    options = {
+      args: [],
+      executablePath: exePath,
+      headless: true,
+    }
+  } else {
+    options = {
+      args: chrome.args,
+      executablePath: await chrome.executablePath,
+      headless: chrome.headless,
+    }
+  }
+  return options
+}
+
 const scrape = async (req, res) => {
   const url = req.body.url
   const properties = req.body.properties
   const delay = req.body.delay || 1000
 
   if (req.method === "POST") {
+    console.log("configuring chrome...")
+
+    const options = await getOptions()
+
     console.log("scraping...")
+
     puppeteer
-      .launch(
-        process.env.NODE_ENV === "production"
-          ? {
-              args: chrome.args,
-              executablePath: await chrome.executablePath,
-              headless: chrome.headless,
-            }
-          : {}
-      )
+      .launch(options)
       .then((browser) => {
         console.log("launched browser")
-        browser.newPage()
+        return browser.newPage()
       })
       .then((page) => {
+        console.lo
         console.log("navigating to " + url + "...")
         return page.goto(url).then(() => {
           console.log(
@@ -32,7 +67,7 @@ const scrape = async (req, res) => {
           )
           return new Promise((resolve) => setTimeout(resolve, delay)).then(
             () => {
-              console.log("content loaded.")
+              console.log("content loaded...")
               return page.content()
             }
           )
