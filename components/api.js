@@ -37,6 +37,7 @@ const API = ({ url, properties }) => {
   const codeSnippet = `import puppeteer from "puppeteer"
 import cheerio from "cheerio"
 import find from "cheerio-eq"
+import chrome from "chrome-aws-lambda"
 
 const get${apiNameCap} = async (req, res) => {
   ${getSelectors(properties)}
@@ -44,7 +45,13 @@ const get${apiNameCap} = async (req, res) => {
 
   try {
     puppeteer
-      .launch()
+      .launch(process.env.NODE_ENV === "production"
+        ? {
+            args: chrome.args,
+            executablePath: await chrome.executablePath,
+            headless: chrome.headless,
+          }
+        : {})
       .then((browser) => browser.newPage())
       .then((page) => {
         return page.goto("${url}").then(function () {
@@ -102,6 +109,10 @@ export const config = {
           max-width: 800px;
           margin: 16px auto;
           position: relative;
+        }
+        p {
+          text-align: center;
+          font-style: italic;
         }
         #copy {
           position: absolute;

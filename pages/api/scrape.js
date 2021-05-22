@@ -1,6 +1,7 @@
 import puppeteer from "puppeteer"
 import cheerio from "cheerio"
 import find from "cheerio-eq"
+import chrome from "chrome-aws-lambda"
 
 const scrape = async (req, res) => {
   const url = req.body.url
@@ -9,7 +10,15 @@ const scrape = async (req, res) => {
 
   if (req.method === "POST") {
     puppeteer
-      .launch()
+      .launch(
+        process.env.NODE_ENV === "production"
+          ? {
+              args: chrome.args,
+              executablePath: await chrome.executablePath,
+              headless: chrome.headless,
+            }
+          : {}
+      )
       .then((browser) => browser.newPage())
       .then((page) => {
         return page.goto(url).then(() => {
