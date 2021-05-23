@@ -70,8 +70,8 @@ const SelectExample = ({ onSelect }) => {
       ],
     },
     {
-      name: "Online Tech Conferences",
-      url: "https://www.techevents.online/",
+      name: "Tech Events",
+      url: "https://techevents.online/",
       properties: [
         { name: "name", selector: ".b-conference h4", type: "text" },
         { name: "link", selector: ".b-conference a", type: "href" },
