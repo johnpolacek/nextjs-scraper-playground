@@ -73,8 +73,7 @@ const get${apiNameCap} = async (req, res) => {
     const page = await browser.newPage()
     await page.setRequestInterception(true)
     page.on("request", (request) => {
-      const reqType = request.resourceType()
-      if (reqType === "document") {
+      if (request.resourceType() === "document") {
         request.continue()
       } else {
         request.abort()
