@@ -75,7 +75,11 @@ const Playground = () => {
         if (data.statusCode === 200) {
           if (data.result.length === 0) {
             setResult(
-              "Property selector found no html element matches for html (note: some websites put measures in place to block scraping):\n" +
+              "Property selector found no html element matches for html \n" +
+                "Note: \n" +
+                "Websites rendered via JavaScript can be parsed in a local environment but not when hosted on Vercel\n" +
+                "Also some websites put measures in place to block scraping:\n\n" +
+                "HTML loaded is:\n" +
                 data.html
             )
           } else {
