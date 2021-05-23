@@ -94,9 +94,8 @@ const get${apiNameCap} = async (req, res) => {
 
     // fill result set by parsing the html for each property selector
 ${getResultSets(properties, url)}
-      await browser.close()
-      res.status(200).json({ statusCode: 200, result })
-    })
+    await browser.close()
+    res.status(200).json({ statusCode: 200, result })
   } catch(error) {
     return res.status(500).send(error.message)
   }
