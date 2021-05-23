@@ -1,13 +1,6 @@
 const puppeteer = require("puppeteer")
 const cheerio = require("cheerio")
-const find = require("cheerio-eq")
 const chrome = require("chrome-aws-lambda")
-
-const sleep = (ms) => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms)
-  })
-}
 
 /** The code below determines the executable location for Chrome to
  * start up and take the screenshot when running a local development environment.
@@ -95,7 +88,7 @@ const scrape = async (req, res) => {
       console.log("initializing empty result set...")
       // create empty result set, assume all selectors will be of the same length
       let result = []
-      for (let i = 0; i < find($, properties[0].selector).length; i++) {
+      for (let i = 0; i < $(properties[0].selector).length; i++) {
         result.push({})
       }
 
@@ -103,7 +96,7 @@ const scrape = async (req, res) => {
       // fill result set by parsing the html for each property selector
       properties.forEach((property) => {
         // {"name":"url","selector":"a[data-click-id='body']","type":"href"}
-        find($, property.selector)
+        $(property.selector)
           .slice(0, result.length)
           .each((i, elem) => {
             // i is the element index in the cheerio selection

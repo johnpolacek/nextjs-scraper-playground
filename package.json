@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.9",
-    "cheerio-eq": "^1.0.1",
     "chrome-aws-lambda": "^9.1.0",
     "next": "^10.2.0",
     "puppeteer": "^9.1.1",
