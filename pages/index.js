@@ -4,7 +4,12 @@ import Playground from "../components/playground.js"
 
 const Index = () => (
   <div>
-    <Head title="Next.js Scraper Playground" />
+    <Head
+      url="https://nextjs-scraper-playground.vercel.app/"
+      title="Next.js Scraper Playground"
+      description="Build and test your own web scraper APIs with Next.js API Routes and cheerio."
+      ogImage="https://nextjs-scraper-playground.vercel.app/screenshot.png"
+    />
 
     <div className="wrapper">
       <h1 className="title">Next.js Scraper Playground</h1>
