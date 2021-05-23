@@ -15,18 +15,18 @@ const SelectExample = ({ onSelect }) => {
         },
       ],
     },
-    {
-      name: "Certified Fresh TV",
-      url: "https://www.rottentomatoes.com/browse/tv-list-3",
-      properties: [
-        { name: "title", selector: ".mb-movies .movieTitle", type: "text" },
-        {
-          name: "score",
-          selector: ".mb-movies .tMeterScore",
-          type: "text",
-        },
-      ],
-    },
+    // {
+    //   name: "Certified Fresh TV",
+    //   url: "https://www.rottentomatoes.com/browse/tv-list-3",
+    //   properties: [
+    //     { name: "title", selector: ".mb-movies .movieTitle", type: "text" },
+    //     {
+    //       name: "score",
+    //       selector: ".mb-movies .tMeterScore",
+    //       type: "text",
+    //     },
+    //   ],
+    // },
     {
       name: "Trending on Github",
       url: "https://github.com/trending",
@@ -70,12 +70,12 @@ const SelectExample = ({ onSelect }) => {
       ],
     },
     {
-      name: "Virtual Tech Conferences",
-      url: "https://confs.tech/",
+      name: "Online Tech Conferences",
+      url: "https://www.techevents.online/",
       properties: [
-        { name: "name", selector: "dl dd span > a", type: "text" },
-        { name: "url", selector: "dl dd span > a", type: "href" },
-        { name: "date", selector: "dl dd p span[class]", type: "text" },
+        { name: "name", selector: ".b-conference h4", type: "text" },
+        { name: "link", selector: ".b-conference a", type: "href" },
+        { name: "date", selector: ".b-conference .date", type: "text" },
       ],
     },
   ]
