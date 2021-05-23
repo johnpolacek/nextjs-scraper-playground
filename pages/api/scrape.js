@@ -39,12 +39,20 @@ const getOptions = async () => {
   return options
 }
 
+const sleep = (ms) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms)
+  })
+}
+
 const scrape = async (req, res) => {
+  console.log("environment mode: " + process.env.NODE_ENV)
+
   console.log("scraping...")
 
   const url = req.body.url
   const properties = req.body.properties
-  const delay = req.body.delay || 1000
+  const delay = req.body.delay || 4000
 
   if (req.method === "POST") {
     try {
@@ -63,7 +71,7 @@ const scrape = async (req, res) => {
         const reqType = request.resourceType()
         if (reqType === "document") {
           request.continue()
-        } else if (process.env.NODE_ENV !== "production") {
+        } else if (process.env.NODE_ENV === "development") {
           request.continue()
         } else {
           console.log("block request type: " + request.resourceType())
@@ -76,11 +84,19 @@ const scrape = async (req, res) => {
         console.log("url loaded") //WORKS FINE
       })
 
+      if (process.env.NODE_ENV === "development") {
+        await sleep(4000)
+        console.log("add delay for javascript update")
+      }
+
       console.log("get page content...")
-      const html = await page.evaluate(() => {
-        return document.querySelector("body").innerHTML
-      })
-      // const html = await page.content() doesn't work on server-side
+
+      const html =
+        process.env.NODE_ENV === "development"
+          ? await page.content()
+          : await page.evaluate(() => {
+              return document.querySelector("body").innerHTML
+            })
 
       console.log("parse html...")
       const $ = cheerio.load(html)
