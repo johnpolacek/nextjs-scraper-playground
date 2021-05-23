@@ -17,7 +17,7 @@ describe("Playground", function () {
     cy.get(".propertyType").last().select("href")
     cy.get("#scrapeButton").should("be.visible")
     cy.get("#scrapeButton").click()
-    cy.get("#responseOutput", { timeout: 25000 })
+    cy.get("#responseOutput", { timeout: 40000 })
     cy.get("#responseOutput code").contains('"title":').should("be.visible")
     cy.get("#responseOutput code").contains('"link":').should("be.visible")
     cy.get(".heading")
@@ -35,10 +35,11 @@ describe("Playground", function () {
 
   describe("Examples", function () {
     it("load Reddit Front Page", function () {
+      cy.visit("/")
       cy.get("#selectExample").select("Reddit Front Page")
       cy.get("#url").should("have.value", "https://reddit.com")
       cy.get("#scrapeButton").click()
-      cy.get("#responseOutput", { timeout: 25000 })
+      cy.get("#responseOutput", { timeout: 40000 })
       cy.get("#responseOutput code").contains('"url":').should("be.visible")
       cy.get("#responseOutput code")
         .contains('"headline":')
@@ -60,44 +61,45 @@ describe("Playground", function () {
         .should("be.visible")
     })
 
-    it("load Certified Fresh TV", function () {
-      cy.get("#selectExample").select("Certified Fresh TV")
-      cy.get("#url").should(
-        "have.value",
-        "https://www.rottentomatoes.com/browse/tv-list-3"
-      )
-      cy.get("#scrapeButton").click()
-      cy.get("#responseOutput", { timeout: 25000 })
-      cy.get("#responseOutput code").contains('"title":').should("be.visible")
-      cy.get("#responseOutput code").contains('"score":').should("be.visible")
-      cy.get(".heading")
-        .contains("pages/api/getRottentomatoes.js")
-        .should("be.visible")
-      cy.get("#codeOutput code")
-        .contains("titleSelector =")
-        .should("be.visible")
-      cy.get("#codeOutput code")
-        .contains("scoreSelector =")
-        .should("be.visible")
-      cy.get("#codeOutput code")
-        .contains(".mb-movies .movieTitle")
-        .should("be.visible")
-      cy.get("#codeOutput code")
-        .contains(".mb-movies .tMeterScore")
-        .should("be.visible")
-      cy.get("#codeOutput code")
-        .contains("getRottentomatoes =")
-        .should("be.visible")
-      cy.get("#codeOutput code")
-        .contains("https://www.rottentomatoes.com")
-        .should("be.visible")
-    })
+    // it("load Certified Fresh TV", function () {
+    //   cy.get("#selectExample").select("Certified Fresh TV")
+    //   cy.get("#url").should(
+    //     "have.value",
+    //     "https://www.rottentomatoes.com/browse/tv-list-3"
+    //   )
+    //   cy.get("#scrapeButton").click()
+    //   cy.get("#responseOutput", { timeout: 40000 })
+    //   cy.get("#responseOutput code").contains('"title":').should("be.visible")
+    //   cy.get("#responseOutput code").contains('"score":').should("be.visible")
+    //   cy.get(".heading")
+    //     .contains("pages/api/getRottentomatoes.js")
+    //     .should("be.visible")
+    //   cy.get("#codeOutput code")
+    //     .contains("titleSelector =")
+    //     .should("be.visible")
+    //   cy.get("#codeOutput code")
+    //     .contains("scoreSelector =")
+    //     .should("be.visible")
+    //   cy.get("#codeOutput code")
+    //     .contains(".mb-movies .movieTitle")
+    //     .should("be.visible")
+    //   cy.get("#codeOutput code")
+    //     .contains(".mb-movies .tMeterScore")
+    //     .should("be.visible")
+    //   cy.get("#codeOutput code")
+    //     .contains("getRottentomatoes =")
+    //     .should("be.visible")
+    //   cy.get("#codeOutput code")
+    //     .contains("https://www.rottentomatoes.com")
+    //     .should("be.visible")
+    // })
 
     it("load Trending on Github", function () {
+      cy.visit("/")
       cy.get("#selectExample").select("Trending on Github")
       cy.get("#url").should("have.value", "https://github.com/trending")
       cy.get("#scrapeButton").click()
-      cy.get("#responseOutput", { timeout: 25000 })
+      cy.get("#responseOutput", { timeout: 40000 })
       cy.get("#responseOutput code")
         .contains('"repository":')
         .should("be.visible")
@@ -128,13 +130,14 @@ describe("Playground", function () {
     })
 
     it("load Trending on Twitter", function () {
+      cy.visit("/")
       cy.get("#selectExample").select("Trending on Twitter (US)")
       cy.get("#url").should(
         "have.value",
         "https://getdaytrends.com/united-states/"
       )
       cy.get("#scrapeButton").click()
-      cy.get("#responseOutput", { timeout: 25000 })
+      cy.get("#responseOutput", { timeout: 40000 })
       cy.get("#responseOutput code").contains('"trend":').should("be.visible")
       cy.get("#responseOutput code")
         .contains('"numTweets":')
@@ -157,10 +160,11 @@ describe("Playground", function () {
     })
 
     it("load Virtual Tech Conferences", function () {
+      cy.visit("/")
       cy.get("#selectExample").select("Virtual Tech Conferences")
       cy.get("#url").should("have.value", "https://confs.tech/")
       cy.get("#scrapeButton").click()
-      cy.get("#responseOutput", { timeout: 25000 })
+      cy.get("#responseOutput", { timeout: 40000 })
       cy.get("#responseOutput code").contains('"url":').should("be.visible")
       cy.get("#responseOutput code").contains('"name":').should("be.visible")
       cy.get("#responseOutput code").contains('"date":').should("be.visible")

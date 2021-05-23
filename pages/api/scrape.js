@@ -68,11 +68,9 @@ const scrape = async (req, res) => {
       await page.setRequestInterception(true)
       page.on("request", (request) => {
         const reqType = request.resourceType()
-        if (
-          reqType === "document" ||
-          reqType === "script" ||
-          reqType === "xhr"
-        ) {
+        if (reqType === "document") {
+          request.continue()
+        } else if (process.env.NODE_ENV !== "production") {
           request.continue()
         } else {
           console.log("block request type: " + request.resourceType())
@@ -84,14 +82,6 @@ const scrape = async (req, res) => {
       await page.goto(url, { timeout: 0 }).then(async (response) => {
         console.log("url loaded") //WORKS FINE
       })
-
-      console.log("delay " + delay + "ms for js...")
-      const sleep = (ms) => {
-        return new Promise((resolve) => {
-          setTimeout(resolve, ms)
-        })
-      }
-      await sleep(delay)
 
       console.log("get page content...")
       const html = await page.evaluate(() => {
