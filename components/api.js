@@ -76,8 +76,6 @@ const get${apiNameCap} = async (req, res) => {
       const reqType = request.resourceType()
       if (reqType === "document") {
         request.continue()
-      } else if (process.env.NODE_ENV !== "production") {
-        request.continue()
       } else {
         request.abort()
       }
